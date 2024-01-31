@@ -38,6 +38,7 @@
 module odbc_types
     implicit none
 
+    integer, parameter         :: sp = kind(1.0)
     integer, parameter         :: dp = kind(1.0d0)
 
     integer, parameter         :: ODBC_INT     = 1
@@ -234,7 +235,6 @@ subroutine odbc_column_props( column, name, type, length )
    integer, intent(in), optional      :: length
 
    integer                            :: length_
-   character(len=40)                  :: type_expr
 
    length_ = 20
    if ( present(length) ) then
@@ -384,7 +384,7 @@ subroutine odbc_get_column_real( column, value )
    type(ODBC_COLUMN), intent(inout) :: column
    real, intent(out)                :: value
 
-   value = column%double_value
+   value = real(column%double_value, kind=sp)
 end subroutine odbc_get_column_real
 
 subroutine odbc_get_column_double( column, value )
@@ -665,7 +665,6 @@ function odbc_errmsg_db( db ) result( text )
     end interface
 
     integer           :: rc
-    integer           :: i
     character(len=10) :: state
 
     if ( db%errmsg /= ' ' ) then
@@ -819,7 +818,6 @@ subroutine odbc_do( db, command )
    end interface
 
    character(len=len(command)+1) :: commandc
-   integer                       :: k
 
    commandc = command
    call stringtoc( commandc )

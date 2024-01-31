@@ -258,9 +258,7 @@ void odbc_finalize_c_(
        SQLHSTMT *stmt
       )
 {
-    SQLRETURN rc ;
-
-    rc = SQLFreeHandle( SQL_HANDLE_STMT, *stmt );
+    SQLFreeHandle( SQL_HANDLE_STMT, *stmt );
 
     return;
 }
@@ -482,14 +480,13 @@ void odbc_column_name_type_c_(
        int       len_type
       )
 {
-    SQLRETURN    rc            ;
     SQLSMALLINT  actual_length ;
     SQLSMALLINT  data_type     ;
     SQLULEN      column_size   ;
     SQLSMALLINT  decimals      ;
     SQLSMALLINT  nullable      ;
 
-    rc = SQLDescribeCol( *stmt, *colidx, (SQLCHAR *)name, (SQLSMALLINT)len_name, &actual_length,
+    SQLDescribeCol( *stmt, *colidx, (SQLCHAR *)name, (SQLSMALLINT)len_name, &actual_length,
              &data_type, &column_size, &decimals, &nullable ) ;
 
     name[len_name-1] = '\0' ;
